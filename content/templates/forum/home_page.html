@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %}Forum Home Page{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="themes">
+        {% for theme in themes %}
+            <div class="theme">
+                <a href="#" class="theme-text">{{ theme.name }} - {{ theme.author }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

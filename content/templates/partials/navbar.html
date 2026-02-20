@@ -1,0 +1,33 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+<nav class="nav">
+    <div class="content">
+        <div class="left-side">
+            <div class="logo">
+                <a href="{% url 'forum:home' %}">Forum VBV</a>
+            </div>
+            <div class="links">
+                <a href="{% url 'forum:home' %}">Головна</a>
+            </div>
+        </div>
+
+        <div class="user-links">
+                {% if user.is_authenticated %}
+                <a href="#" class="menu-item">
+                    <i class="bi bi-person"></i>
+                    <span>Вазуп {{user.username}}!</span>
+                </a>
+                {% else %}
+                <a href="{% url 'auth_sys:login' %}" class="menu-item">
+                    <i class="bi bi-person"></i>
+                    <span>Вхiд</span>
+                </a>
+                <a href="{% url 'auth_sys:register' %}" class="menu-item">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Реєстрація</span>
+                </a>
+                {% endif %}
+            </div>
+    </div>
+</nav>

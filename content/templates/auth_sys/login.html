@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/log_reg.css' %}">{% endblock %}
+
+{% block content %}
+<div class="register-page">
+    <div class="form">
+    <form class="register-form" method="POST" action="{% url 'auth_sys:login' %}">
+        {% csrf_token %}
+        <h3 class="register-title">ВХОД</h3>
+        <h5>{{form.username.label}}</h5>
+        {{form.username}}
+        <h5>{{form.password.label}}</h5>
+        {{form.password}}
+        <button type="submit"> Войти </button>
+        <p class="message"> Нету аккаунта? <a href="{% url 'auth_sys:register' %}"> Зарегистрироватся</a></p>
+    </form>
+    </div>
+</div>
+{% endblock %}

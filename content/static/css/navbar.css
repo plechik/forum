@@ -1,0 +1,59 @@
+.nav {
+    background-color: rgb(20 20 20);
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    margin-bottom: 20px;
+}
+
+.content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(216, 216, 216);
+}
+
+.content a {
+    text-decoration: none;
+    color: rgb(216, 216, 216);
+}
+
+/* Новый контейнер для левой части */
+.left-side {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Расстояние между логотипом и кнопкой Головна */
+}
+
+/* Исправляем селектор: запятая вместо пробела, чтобы стили применились к обоим */
+.links {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Расстояние между Входом и Регистрацией */
+    font-size: 22px;
+}
+
+.logo {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.user-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 15px
+}
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* transition: 0.2s; */
+}
+
+.menu-item i {
+    font-size: 22px;
+}
