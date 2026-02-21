@@ -46,6 +46,7 @@ body {
 
 .form input {
     background: #252525;
+    color: rgb(216, 216, 216);
     width: 100%;
     border: 0;
     margin: 0 0 5px;
@@ -62,13 +63,14 @@ body {
 }
 
 .form button {
-    background: #007558;
+    background: #00644b;
     width: 100%;
     border: 0;
     padding: 15px;
     color: #eeeeee;
     font-size: 15px;
     font-weight: 550;
+    letter-spacing: .5px;
     text-transform: uppercase;
     cursor: pointer;
     margin-top: 20px;
@@ -77,7 +79,7 @@ body {
 }
 
 .form button:hover, .form button:active, .form button:focus {
-    background: #7393b8;
+    background: #008161;
 }
 
 .message {
@@ -88,6 +90,7 @@ body {
 
 .message a {
     color: #fff;
+    letter-spacing: .5px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
 }

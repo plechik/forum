@@ -29,11 +29,12 @@ class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(
         max_length=150,
         required=True,
-        label='Имя пользователя',
+        label="I'мя користувача",
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].help_text = ""
+        self.fields['password'].label = "Пароль"
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'

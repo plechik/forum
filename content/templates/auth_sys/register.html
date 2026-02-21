@@ -2,14 +2,14 @@
 {% load static %}
 {% block css %}<link rel="stylesheet" href="{% static 'css/log_reg.css' %}">{% endblock %}
 
-{% block title %} Регистрация {% endblock %}
+{% block title %} Реєстрація {% endblock %}
 
 {% block content %}
 <div class="register-page">
     <div class="form">
         <form method="post" action="{% url 'auth_sys:register' %}">
         {% csrf_token %}
-        <h3 class="register-title">Регистрация</h3>
+        <h3 class="register-title">Реєстрація</h3>
         <h5>{{form.username.label}}</h5>
         {{form.username}}
         <h5>{{form.email.label}}</h5>
@@ -18,13 +18,13 @@
         {{form.password1}}
         <h5>{{form.password2.label}}</h5>
         {{form.password2}}
-        <button type="submit"> Зарегистрироваться </button>
+        <button type="submit"> Зареєструватись </button>
         {% if form.errors %}
             {% for error in form.errors %}
             <p class="error">{{ error }}</p>
             {% endfor %}
         {% endif %}
-        <p class="message">Уже есть аккаунт? <a href="{%url 'auth_sys:login' %}">Войти</a></p>
+        <p class="message">Уже есть аккаунт? <a href="{%url 'auth_sys:login' %}">Увійти</a></p>
         </form>
     </div>
 </div>
