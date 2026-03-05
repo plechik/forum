@@ -1,15 +1,18 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block title %}Forum Home Page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="themes">
-        {% for theme in themes %}
-            <div class="theme">
-                <a href="#" class="theme-text">{{ theme.name }} - {{ theme.author }}</a>
-            </div>
+        {% for thread in threads %}
+            <a href="{% url 'forum:thread_details' thread.id %}" class="theme-text">
+                <div class="theme">
+                    <p>{{ thread.title }} - {{ thread.author }}</p>
+                    <p class="theme-description">{{thread.content|truncatechars:100}}</p>
+                </div>
+            </a>
         {% endfor %}
     </div>
 </div>

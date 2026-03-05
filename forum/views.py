@@ -1,16 +1,41 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .models import Theme, Post
+from .forms import PostForm
+from .models import Thread, Post
 from django.contrib import messages
 
 # Create your views here.
 def homeview(request):
-    themes = Theme.objects.all()
-    context = {'themes': themes}
+    threads = Thread.objects.all()
+    context = {'threads': threads}
 
     return render(request, 'forum/home_page.html', context)
+
+def theme_detail(request, pk):
+    thread = get_object_or_404(Thread, pk=pk)
+    posts = thread.posts.all().order_by('created_at')
+    
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = PostForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.thread = thread
+                post.author = request.user
+                post.save()
+                return redirect('forum:thread_details', pk=pk)
+        else:
+            return redirect('login')
+    else:
+        form = PostForm()
+
+    context = {
+        'thread': thread,
+        'posts': posts,
+        'form': form
+    }
+    return render(request, 'forum/thread_details.html', context)
 
 # class PostCreateView(LoginRequiredMixin, CreateView):
 #     model = Post

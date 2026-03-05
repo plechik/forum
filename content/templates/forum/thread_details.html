@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ thread.title|truncatechars:20 }} - Forum VBV {% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/theme_details.css' %}">{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="theme_info">
+        <p class="title">{{thread.title}}</p>
+        <p class="description">{{thread.description}}</p>
+        <p class="content">{{thread.content}}</p>
+        <p class="author">Автор: {{thread.author.username}}</p>
+    </div>
+</div>
+
+<div class="container comments-section">
+    <h2 class="section-title">Сообщения ({{ posts.count }})</h2>
+
+    {% for post in posts %}
+    <div class="forum-post">
+        <div class="post-sidebar">
+            <div class="user-avatar">
+                {{ post.author.username|slice:":1"|upper }}
+            </div>
+            <p class="post-author">{{ post.author.username }}</p>
+        </div>
+        <div class="post-main">
+            <div class="post-header">
+                <span class="post-date">{{ post.created_at|date:"d.m.Y H:i" }}</span>
+                <span class="post-number">#{{ forloop.counter }}</span>
+            </div>
+            <div class="post-content">
+                {{ post.content|linebreaks }}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="no-posts">Пока ответов нет. Станьте первым!</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <div class="reply-container">
+        <form method="post" class="reply-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_content">Ваш коментар:</label>
+                <textarea name="content" id="id_content" placeholder="..." required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Отправить сообщение</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="auth-notice">
+        <p>Чтобы оставлять сообщения, пожалуйста, <a class="login_button" href="{% url 'auth_sys:login' %}">войдите</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

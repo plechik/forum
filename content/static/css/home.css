@@ -8,6 +8,7 @@ a {
     text-decoration: none;
     color: rgb(216, 216, 216);
 }
+p {color: rgb(216, 216, 216);}
 
 .container {
     max-width: 1200px;
@@ -28,7 +29,23 @@ a {
 .theme {
     width: 100%;
     font-size: 20px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px) saturate(180%);
+    background-color: rgb(0 0 0 / 10%); 
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    
+    padding: 20px;
+}
+
+
+
+/* details */
+.name {
+    color: rgb(216, 216, 216);
+    font-size: 1.25rem;
+    font-weight: bold;
+
 }

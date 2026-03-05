@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import Theme, Post
+from .models import Thread, Post
 
-@admin.register(Theme)
+@admin.register(Thread)
 class ThemeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author', 'created_at')
-    search_fields = ('name', 'author__username')
+    list_display = ('title', 'author', 'created_at')
+    search_fields = ('title', 'author__username')
     list_filter = ('created_at',)
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('theme', 'author', 'created_at', 'updated_at')
-    search_fields = ('theme__name', 'author__username', 'content')
+    list_display = ('thread', 'author', 'created_at', 'updated_at')
+    search_fields = ('thread__name', 'author__username', 'content')
     list_filter = ('created_at', 'updated_at')
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)

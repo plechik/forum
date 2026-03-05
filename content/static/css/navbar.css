@@ -1,12 +1,12 @@
 .nav {
-    background-color: rgb(20 20 20);
+    background-color: rgba(20, 20, 20, 0.8);
     display: flex;
     align-items: center;
     padding: 5px 0;
     margin-bottom: 20px;
 }
 
-.content {
+.navbar {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
@@ -16,7 +16,7 @@
     color: rgb(216, 216, 216);
 }
 
-.content a {
+.navbar a {
     text-decoration: none;
     color: rgb(216, 216, 216);
 }

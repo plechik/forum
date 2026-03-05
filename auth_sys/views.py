@@ -37,4 +37,4 @@ def LoginView(request):
 def LogoutView(request):
     logout(request)
     messages.success(request, "Ви вийшли з акаунту.")
-    return redirect('auth_sys:login')
+    return redirect('forum:home')

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
 <nav class="nav">
-    <div class="content">
+    <div class="navbar">
         <div class="left-side">
             <div class="logo">
                 <a href="{% url 'forum:home' %}">Forum VBV</a>
@@ -17,6 +17,10 @@
                 <a href="#" class="menu-item">
                     <i class="bi bi-person"></i>
                     <span>Вазуп {{user.username}}!</span>
+                </a>
+                <a href="{% url 'auth_sys:logout' %}" class="menu-item">
+                    <i class="bi bi-person"></i>
+                    <span>Вийти</span>
                 </a>
                 {% else %}
                 <a href="{% url 'auth_sys:login' %}" class="menu-item">
