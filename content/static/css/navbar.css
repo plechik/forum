@@ -1,5 +1,4 @@
 .nav {
-    background-color: rgba(20, 20, 20, 0.8);
     display: flex;
     align-items: center;
     padding: 5px 0;
@@ -7,13 +6,23 @@
 }
 
 .navbar {
-    max-width: 1200px;
+    max-width: 1500px;
     width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: rgb(216, 216, 216);
+    padding: 10px 15px;
+    
+    background-color: rgba(0, 0, 0, 0.3); /* 50% прозрачности, чтобы точно увидеть эффект */
+    backdrop-filter: blur(30px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
 }
 
 .navbar a {
@@ -45,7 +54,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
-    font-size: 15px
+    font-size: 15px;
 }
 .menu-item {
     display: flex;

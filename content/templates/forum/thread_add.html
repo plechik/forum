@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Forum VBV - Додати нову тему{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/thread_add_edit.css' %}">{% endblock %}
+
+{% block content %}
+<div class="form">
+    <form class="post-form" method="post" action="{% url 'forum:thread_create' %}">
+        {% csrf_token %}
+
+        <div class="container">
+            <div class="theme_info">
+                <div class="title">
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.title.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="description">
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.description.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="content">
+                    {{ form.content }}
+                    {% if form.content.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.content.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <button type="submit" class="submit-button">Додати тему</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+function autoResize(textarea) {
+    textarea.style.height = 'auto'; 
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+</script>
+{% endblock %}

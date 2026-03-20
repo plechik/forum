@@ -19,20 +19,22 @@ def ReqisterView(request):
     return render(request, 'auth_sys/register.html', {'form': form})
 
 def LoginView(request):
-    if request.method == "POST":
-        form = CustomLoginForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('forum:home')
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            form = CustomLoginForm(request, data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('forum:home')
+            else:
+                messages.error(request, "Невірний логін або пароль.")
         else:
-            messages.error(request, "Невірний логін або пароль.")
-    else:
-        form = CustomLoginForm()
-    return render(request, 'auth_sys/login.html', {'form': form})
+            form = CustomLoginForm()
+        return render(request, 'auth_sys/login.html', {'form': form})
+    return redirect('forum:home')
 
 def LogoutView(request):
     logout(request)

@@ -14,12 +14,16 @@
 
         <div class="user-links">
                 {% if user.is_authenticated %}
+                <a href="{% url 'forum:thread_create' %}" class="menu-item">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Додати тему</span>
+                </a>
                 <a href="#" class="menu-item">
                     <i class="bi bi-person"></i>
                     <span>Вазуп {{user.username}}!</span>
                 </a>
                 <a href="{% url 'auth_sys:logout' %}" class="menu-item">
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-box-arrow-right"></i>
                     <span>Вийти</span>
                 </a>
                 {% else %}

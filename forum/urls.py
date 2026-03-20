@@ -4,6 +4,7 @@ from . import views
 app_name = 'forum'
 
 urlpatterns = [
-    path('', views.homeview, name='home'),
-    path('thread/<int:pk>/', views.theme_detail, name='thread_details'),
+    path('', views.HomeView.as_view(), name='home'),
+    path('thread/<int:pk>/', views.ThreadDetailView.as_view(), name='thread_details'),
+    path('thread/post/', views.ThreadCreateView.as_view(), name='thread_create')
 ]
