@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %} 
+<link rel="stylesheet" href="{% static 'css/account/profile.css' %}">
+<style>
+    .breadcrumb { display: none; } /* Скрываем контейнер крошек только здесь */
+</style>
+{% endblock %}
+{% block title %} Мiй аккаунт {% endblock %}
+{% block content %}
+<main class="main">
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="user-info">
+                <div class="user-avatar">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" class="avatar-img">
+                    {% else %}
+                        <div class="avatar-letter">
+                            {{ user.get_avatar_char }}
+                        </div>
+                    {% endif %}
+                </div>
+                <h3>{{ user.username }}</h3>
+            </div>
+            <div class="sidebar-buttons">
+                <a href="#" class="my-threads">
+                    <p>Мої пости</p>
+                </a>
+                <a href="#" class="my-commetns">
+                    <p>Мої коментарi</p>
+                </a>
+
+            </div>
+        </div>
+    </aside>
+    <div class="content">
+    </div>
+</main>
+{% endblock %}

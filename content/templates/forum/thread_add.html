@@ -2,10 +2,15 @@
 {% load static %}
 {% block title %}Forum VBV - Додати нову тему{% endblock %}
 {% block css %}<link rel="stylesheet" href="{% static 'css/thread_add_edit.css' %}">{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Гловна</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'forum:threads_list' view.kwargs.pk %}">{{ current_theme.title }}</a></li>
+    <li class="breadcrumb-item active">Нова тема</li>
+{% endblock %}
 
 {% block content %}
 <div class="form">
-    <form class="post-form" method="post" action="{% url 'forum:thread_create' %}">
+    <form class="post-form" method="post" action="{% url 'forum:thread_create' view.kwargs.pk %}">
         {% csrf_token %}
 
         <div class="container">

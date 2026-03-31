@@ -13,19 +13,19 @@ class PostThread(forms.ModelForm):
         widgets = {
             'title': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Заголовок:',
+                'placeholder': 'Заголовок',
                 'rows' : 1,
                 'oninput' : 'autoResize(this)',
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введiть опис теми',
+                'placeholder': 'Опис теми',
                 'rows' : 2,
                 'oninput' : 'autoResize(this)',
             }),
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введiть текст теми',
+                'placeholder': 'Текст теми',
                 'rows': 4,
                 'oninput' : 'autoResize(this)',
             })

@@ -3,6 +3,12 @@
 {% block title %} {{ thread.title|truncatechars:20 }} - Forum VBV {% endblock %}
 {% block css %}<link rel="stylesheet" href="{% static 'css/theme_details.css' %}">{% endblock %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Гловна</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'forum:threads_list' thread.theme.pk %}">{{ thread.theme.title }}</a></li>
+    <li class="breadcrumb-item active">{{ thread.title|truncatechars:30 }}</li>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="theme_info">
@@ -20,14 +26,32 @@
     <div class="forum-post">
         <div class="post-sidebar">
             <div class="user-avatar">
-                {{ post.author.username|slice:":1"|upper }}
+                {% if post.author.avatar %}
+                    <img src="{{ post.author.avatar.url }}" class="avatar-img">
+                {% else %}
+                    <div class="avatar-letter">
+                        {{ post.author.get_avatar_char }}
+                    </div>
+                {% endif %}
             </div>
             <p class="post-author">{{ post.author.username }}</p>
         </div>
         <div class="post-main">
             <div class="post-header">
-                <span class="post-date">{{ post.created_at|date:"d.m.Y H:i" }}</span>
-                <span class="post-number">#{{ forloop.counter }}</span>
+                <div>
+                    <span class="post-date">{{ post.created_at|date:"d.m.Y H:i" }}</span>
+                </div>
+                <div>
+                    {% if user == post.author %}
+                        <form action="{% url 'forum:post_delete' post.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-post-btn" 
+                                    onclick="return confirm('Вы уверены, что хотите удалить это сообщение?')">
+                                <i class="bi bi-trash3"></i> </button>
+                        </form>
+                    {% endif %}
+                    <span class="post-number">#{{ forloop.counter }}</span>
+                </div>
             </div>
             <div class="post-content">
                 {{ post.content|linebreaks }}

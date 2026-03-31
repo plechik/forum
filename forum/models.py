@@ -3,17 +3,30 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
+class Theme(models.Model):
+    title = models.CharField(max_length=155, verbose_name='Название')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Автор')
+    created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+    description = models.TextField(max_length=100, verbose_name='Описание', blank=True)
+
+    class Meta:
+        verbose_name = 'Тема'
+        verbose_name_plural = 'Темы'
+
+    def __str__(self):
+        return self.title
+
 class Thread(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название темы')
+    theme = models.ForeignKey(Theme, on_delete=models.CASCADE, verbose_name='Главная тема')
+    title = models.CharField(max_length=155, verbose_name='Название темы')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Автор')
     created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
     description = models.TextField(max_length=255, verbose_name='Описание темы')
     content = models.TextField(verbose_name='Текст темы')
 
-
     class Meta:
-        verbose_name = 'Тема'
-        verbose_name_plural = 'Темы'
+        verbose_name = 'thread'
+        verbose_name_plural = 'threads'
 
     def __str__(self):
         return self.title

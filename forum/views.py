@@ -1,19 +1,43 @@
-from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.views.generic import DeleteView, ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
-from .models import Thread, Post
+from .models import Theme, Thread, Post
 from .forms import PostForm, PostThread
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Головна сторінка зі списком усіх тем
 class HomeView(ListView):
-    model = Thread
+    model = Theme
     template_name = 'forum/home_page.html'
+    context_object_name = 'themes'
+    ordering = ['-created_at']
+
+class ThreadsView(ListView):
+    model = Thread
+    template_name = 'forum/threads.html'
     context_object_name = 'threads'
     ordering = ['-created_at']
+    
+
+    def get_queryset(self):
+        t_id = self.kwargs.get('pk')
+        return Thread.objects.filter(theme_id=t_id)
+    
+    def get_context_data(self, **kwargs):
+        # Сначала получаем стандартный контекст (список тредов)
+        context = super().get_context_data(**kwargs)
+        
+        # Находим объект темы по pk из URL
+        # Используем get_object_or_404 для безопасности
+        context['current_theme'] = get_object_or_404(Theme, pk=self.kwargs.get('pk'))
+        
+        return context
+
 
 # Детальний перегляд теми та обробка нових повідомлень
 class ThreadDetailView(DetailView):
@@ -60,22 +84,61 @@ class ThreadDetailView(DetailView):
             post.author = user
             post.save()
             
-            messages.success(request, "Ваше повідомлення успішно додано!")
+            messages.success(request, "Ваше коментар додано!")
             return redirect('forum:thread_details', pk=self.object.pk)
         
         return self.render_to_response(self.get_context_data(form=form))
 
-# Створення нової теми
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+
+    def get_success_url(self):
+        # Возвращаемся в тот же тред
+        return reverse('forum:thread_details', kwargs={'pk': self.get_object().thread.pk})
+
+    def test_func(self):
+        # Только автор может удалить свой пост
+        return self.request.user == self.get_object().author
+
+    # Если кто-то попробует зайти на URL через GET (просто вставив в браузер)
+    def get(self, request, *args, **kwargs):
+        return redirect(self.get_success_url())
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Коментар видалено.")
+        return super().delete(request, *args, **kwargs)
+    
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
     form_class = PostThread
     template_name = 'forum/thread_add.html'
     
-    # Автоматичне призначення автора перед збереженням
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Достаем объект темы по ID из URL, чтобы показать название в крошках
+        context['current_theme'] = get_object_or_404(Theme, pk=self.kwargs.get('pk'))
+        return context
+    
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.theme = get_object_or_404(Theme, pk=self.kwargs['pk'])
         messages.success(self.request, "Тему успішно створено!")
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('forum:home')
+        return reverse('forum:thread_details', kwargs={'pk': self.object.pk})
+
+@login_required
+def profile_view(request):
+    """Страница личного кабинета"""
+    if request.method == 'POST':
+        user = request.user
+        # Проверяем, какую форму отправили (данные или пароль)
+        if 'username' in request.POST:
+            # Обновление личных данных
+            user.username = request.POST.get('username')
+            user.email = request.POST.get('email')
+            user.save()
+            messages.success(request, 'Данные обновлены')
+            return redirect('forum:profile')
+    return render(request, 'forum/account/account.html')

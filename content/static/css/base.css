@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+    color: rgb(216, 216, 216);
+}
+html {
+    margin-left: calc(100vw - 100%);
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0); 
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center; /* Центрирует всё по вертикали */
+    justify-content: space-between; /* Главное: разносит элементы по краям */
+    padding: 0 20px; /* Отступы внутри блока, чтобы текст не лип к краям */
+    
+    /* Твои стили стекла */
+    background-color: rgb(0 0 0 / 20%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    height: 50px;
+    margin: 12px auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.breadcrumbs {
+    display: flex; /* Чтобы li были в ряд и без пробелов HTML */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: #555;
+    padding: 0 5px;
+}
+
+.thread-actions {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item a {
+    color: #4dabf7;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+    color: #fff;
+}
+
+.breadcrumb-item.active {
+    color: #d8d8d8;
+    pointer-events: none; /* Текущая страница не кликабельна */
+}

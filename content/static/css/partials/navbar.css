@@ -1,8 +1,8 @@
 .nav {
     display: flex;
     align-items: center;
-    padding: 5px 0;
-    margin-bottom: 20px;
+    padding: 5px 20px;
+    margin-bottom: 0;
 }
 
 .navbar {
@@ -14,13 +14,10 @@
     align-items: center;
     color: rgb(216, 216, 216);
     padding: 10px 15px;
-    
-    background-color: rgba(0, 0, 0, 0.3); /* 50% прозрачности, чтобы точно увидеть эффект */
+    background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(30px);
-    
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 
 }
@@ -45,9 +42,39 @@
     font-size: 22px;
 }
 
-.logo {
+.logo{
     font-size: 35px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    margin-right: 10px;
+    filter: invert(1);
+}
+
+.user-avatar-letter {
+    width: 40px;
+    height: 40px;
+    background-color: #f0f0f0;
+    color: #181818;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.user-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .user-links {
@@ -62,7 +89,10 @@
     align-items: center;
     /* transition: 0.2s; */
 }
-
+.menu-user-item {
+    display: flex;
+    align-items: center;
+}
 .menu-item i {
     font-size: 22px;
 }

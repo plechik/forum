@@ -21,8 +21,9 @@
     padding: 30px 40px;
 }
 
-.theme_info input, textarea {
-    background-color: #ffffff00;
+.theme_info input, 
+.theme_info textarea {
+    background-color: transparent; /* Тот же #ffffff00, но читабельнее */
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgb(216, 216, 216);
     width: 100%;
@@ -31,6 +32,28 @@
     box-sizing: border-box;
     border-radius: 5px;
     transition: background 0.2s ease;
+    overflow: hidden;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+
+.theme_info input::-webkit-scrollbar,
+.theme_info textarea::-webkit-scrollbar {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0); 
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4); 
 }
 
 textarea {
@@ -43,7 +66,6 @@ textarea {
     font-weight: bold;
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #fff
 }
 
 #id_description {

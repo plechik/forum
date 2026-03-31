@@ -1,16 +1,19 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block title %}Forum Home Page{% endblock %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
 
+{% block css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Гловна</li>
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="themes">
-        {% for thread in threads %}
-            <a href="{% url 'forum:thread_details' thread.id %}" class="theme-text">
+        {% for theme in themes %}
+            <a href="{% url 'forum:threads_list' theme.pk %}" class="theme-text">
                 <div class="theme">
-                    <p>{{ thread.title }} - {{ thread.author }}</p>
-                    <p class="theme-description">{{thread.content|truncatechars:100}}</p>
+                    <p>{{ theme.title }} - {{ theme.description }}</p>
+                    <p class="theme-description">{{theme.content|truncatechars:100}}</p>
                 </div>
             </a>
         {% endfor %}
