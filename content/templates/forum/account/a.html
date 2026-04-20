@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %} <link rel="stylesheet" href="../../../static/css/account/profile.css"> {% endblock %}
+{% block content %}
+<main class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="user-info">
+                <div class="user-avatar">ИП</div>
+                <div class="user-details">
+                    <h3>Иван Петров</h3>
+                    <p>ivan@example.com</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Профиль
+                </a>
+                <a href="#">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                        <path d="M8 21h8"></path>
+                        <path d="M12 17v4"></path>
+                    </svg>
+                    Заказы
+                </a>
+                <a href="#">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Адреса
+                </a>
+                <a href="#">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Избранное
+                </a>
+                <a href="#">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    Настройки
+                </a>
+                <div class="logout-btn">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Выйти
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+    <!-- Content Area -->
+    <div class="content">
+        <!-- Profile Section -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Личные данные</h2>
+            </div>
+            <form>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="first_name">Имя</label>
+                        <input type="text" id="first_name" name="first_name" value="Иван">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Фамилия</label>
+                        <input type="text" id="last_name" name="last_name" value="Петров">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="ivan@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" value="+7 (999) 123-45-67">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="birthday">Дата рождения</label>
+                        <input type="date" id="birthday" name="birthday" value="1990-05-15">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary">Отмена</button>
+                </div>
+            </form>
+        </section>
+        <!-- Orders Section -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Последние заказы</h2>
+                <a href="#" class="btn btn-secondary">Все заказы</a>
+            </div>
+            <div class="orders-list">
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-image">Фото</div>
+                        <div class="order-details">
+                            <h4>Заказ #12847</h4>
+                            <p>3 товара | 25 января 2026</p>
+                        </div>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-price">8 450 Р</div>
+                        <span class="order-status status-delivered">Доставлен</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-image">Фото</div>
+                        <div class="order-details">
+                            <h4>Заказ #12831</h4>
+                            <p>1 товар | 20 января 2026</p>
+                        </div>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-price">2 990 Р</div>
+                        <span class="order-status status-shipping">В пути</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-image">Фото</div>
+                        <div class="order-details">
+                            <h4>Заказ #12798</h4>
+                            <p>5 товаров | 15 января 2026</p>
+                        </div>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-price">15 200 Р</div>
+                        <span class="order-status status-processing">Обработка</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

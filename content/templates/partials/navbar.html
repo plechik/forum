@@ -9,10 +9,14 @@
                 <p>Forum VBV</p>
             </a>
             <div class="links">
-                <a href="{% url 'forum:home' %}">Головна</a>
             </div>
         </div>
-
+        <div class="search">
+            <form action="{% url 'forum:search' %}" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Пошук..." required autocomplete="off">
+            <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+        </div>
         <div class="user-links">
                 {% if user.is_authenticated %}
                 <a href="{% url 'forum:profile' %}" class="menu-user-item">
@@ -24,10 +28,6 @@
                         </div>
                     {% endif %}
                     <span>{{user.username}}</span>
-                </a>
-                <a href="{% url 'auth_sys:logout' %}" class="menu-item">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Вийти</span>
                 </a>
                 {% else %}
                 <a href="{% url 'auth_sys:login' %}" class="menu-item">

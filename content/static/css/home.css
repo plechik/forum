@@ -10,6 +10,7 @@ a {
 p {color: rgb(216, 216, 216);}
 
 .container {
+    z-index: 1;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
@@ -40,11 +41,46 @@ p {color: rgb(216, 216, 216);}
 }
 
 
+.thread-actions {
+    display: flex;
+    align-items: center;
+    font-size: 1.15rem;
+}
 
 /* details */
 .name {
     color: rgb(216, 216, 216);
     font-size: 1.25rem;
     font-weight: bold;
+}
 
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px; 
+    }
+    .thread-actions {
+        display:flex;
+        justify-content: center;
+        padding-right: 10px;
+    }
+    .theme {
+        padding: 15px; 
+    }
+    .theme h3 {
+        font-size: 18px; 
+    }
+    .theme p {
+        font-size: 14px; 
+    }
+}
+
+
+@media (max-width: 480px) {
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding: 0 4px;
+    }
+    .section-title {
+        font-size: 20px;
+        text-align: center;
+    }
 }

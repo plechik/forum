@@ -1,4 +1,6 @@
 .nav {
+    position: relative;
+    z-index: 2000;
     display: flex;
     align-items: center;
     padding: 5px 20px;
@@ -92,7 +94,120 @@
 .menu-user-item {
     display: flex;
     align-items: center;
+    margin-right: 15px;
+}
+.menu-user-item span{
+    font-size:20px
 }
 .menu-item i {
     font-size: 22px;
+}
+
+.search-form input:-webkit-autofill,
+.search-form input:-webkit-autofill:hover, 
+.search-form input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(0,0,0,0) inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.search {
+    position: relative;
+    width: 600px;
+    margin: 0 20px;
+}
+.search-form {
+    width: 100%; /* Занимает все 600px контейнера */
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2px 15px;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.search-form input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-form button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Адаптация навбара для мобильных устройств */
+@media (max-width: 1090px) {
+    .search {
+        width: 40%; /* Сужаем поиск на планшетах */
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        padding: 5px 10px; /* Уменьшаем внешние отступы */
+    }
+    .navbar {
+        padding: 8px 12px;
+        flex-wrap: wrap; 
+        gap: 10px;
+    }
+    .logo p {
+        font-size: 25px;
+        margin-left: 5px;
+    }
+    .logo img {
+        height: 40px;
+        margin-right: 0;
+    }
+    .search {
+        width: 100%; /* На мобилках на всю ширину */
+        max-width: 100%;
+        order: 3;
+        margin-top: 5px;
+    }
+    .search-form input {
+        font-size: 14px;
+    }
+    .left-side {
+        gap: 15px;
+    }
+    .links {
+        font-size: 16px;
+    }
+    .user-links {
+        gap: 12px;
+    }
+    .menu-item span, .menu-user-item span {
+        font-size: 16px;
+        margin: 0 5px;
+    }
+    .menu-item i {
+        font-size: 22px; 
+    }
+    .user-avatar-letter, .user-avatar-img {
+        width: 35px;
+        height: 35px;
+        margin-right: 0; 
+    }
+    .menu-user-item {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        border-radius: 12px; 
+    }
+    .links {
+        display: none;
+    }
 }

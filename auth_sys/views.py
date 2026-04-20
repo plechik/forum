@@ -13,7 +13,7 @@ def ReqisterView(request):
             login(request, user)
             return redirect('forum:home')
         else:
-            messages.error = (request, "Виправте помилку та спробуйте ще раз.")
+            messages.error(request, "Виправте помилку та спробуйте ще раз.")
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth_sys/register.html', {'form': form})

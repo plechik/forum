@@ -23,18 +23,178 @@
                 </div>
                 <h3>{{ user.username }}</h3>
             </div>
-            <div class="sidebar-buttons">
-                <a href="#" class="my-threads">
-                    <p>Мої пости</p>
-                </a>
-                <a href="#" class="my-commetns">
-                    <p>Мої коментарi</p>
-                </a>
-
-            </div>
+            <nav class="sidebar-nav">
+                <a class="tab-link active" data-tab="profile">Профiль</a>
+                <a class="tab-link" data-tab="settings">Налаштування</a>
+                <div class="logout-btn">
+                    <a href="{% url 'auth_sys:logout' %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Вийти
+                    </a>
+                </div>
+            </nav>
         </div>
     </aside>
-    <div class="content">
+
+    <!-- CONTENT -->
+    <div class="content active" id="profile">
+    <!-- Мои посты -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Мої пости</h2>
+        </div>
+
+        <div class="posts-list">
+            {% for thread in user_threads %}
+            <a href="{% url 'forum:thread_details' thread.pk %}">
+                <div class="post-item">
+                    <div class="post-info">
+                        <div class="post-details">
+                            <h4>{{ thread.title }}</h4>
+                            <p>{{thread.description|truncatewords:20}}</p>
+                        </div>
+                    </div>
+                    <div class="post-meta">
+                        <div class="post-date">
+                            <p>{{ thread.created_at|date:"F j, Y"}}</p>
+                            <p>{{ thread.created_at|time:"H:i"}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Комментарии -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Мої коментарі</h2>
+        </div>
+
+        <div class="posts-list">
+            {% for post in user_posts %}
+            <a href="{% url 'forum:thread_details' post.thread.pk %}">
+                <div class="post-item">
+                    <div class="post-info">
+                        <div class="post-details">
+                            <h4>{{post.content}}</h4>
+                            <p>{{post.thread.theme.title}} / {{post.thread.title}}</p>
+                        </div>
+                    </div>
+                    <div class="post-meta">
+                        <div class="post-date">
+                            <p>{{ post.created_at|date:"F j, Y"}}</p>
+                            <p>{{ post.created_at|time:"H:i"}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    </div>
+    <div class="content" id="settings">
+        <!-- PROFILE -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Профіль</h2>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tab" value="settings">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ім'я користувача</label>
+                        <input type="text" id="username" name="username" value="{{ user.username }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary">Зберегти</button>
+                    <button class="btn btn-secondary" type="reset">Скасувати</button>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>Змiнити пароль</h2>
+            </div>
+
+            <form method="post">
+                <input type="hidden" name="tab" value="settings">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="current_password">Поточний пароль</label>
+                    <input type="password" id="current_password" name="current_password" placeholder="Введіть поточний пароль">
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_password">Новий пароль</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Введіть новий пароль">
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Підтвердження пароля</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Повторіть новий пароль">
+                </div>
+            </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Змінити пароль</button>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
 </main>
+
+<script>
+const tabs = document.querySelectorAll('.tab-link');
+const contents = document.querySelectorAll('.content');
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+const tabFromUrl = urlParams.get('tab');
+
+if (tabFromUrl) {
+    document.querySelector(`[data-tab="${tabFromUrl}"]`)?.click();
+}
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+
+        // меняем URL без перезагрузки
+        history.replaceState(null, null, `?tab=${tab.dataset.tab}`);
+    });
+});
+</script>
+
 {% endblock %}

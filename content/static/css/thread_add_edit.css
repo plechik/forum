@@ -7,7 +7,6 @@
     align-items: center;
 }
 .theme_info {
-    width: 100%;
     display: flex;
     flex-direction: column;
     color: rgb(216, 216, 216);
@@ -103,4 +102,55 @@ textarea {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
     
     transition: background 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .theme_info {
+        padding: 20px 15px;
+        margin: 0 10px;
+    }
+
+    /* Уменьшаем шрифты инпутов для мобилок */
+    #id_title {
+        font-size: 28px; /* Было 46px */
+        padding: 10px;
+    }
+
+    #id_description {
+        font-size: 18px; /* Было 26px */
+        padding: 10px;
+    }
+
+    #id_content {
+        font-size: 16px; /* Было 21px */
+        line-height: 1.4;
+        padding: 10px;
+    }
+
+    .theme_info input, 
+    .theme_info textarea {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    /* Кнопка на всю ширину */
+    .submit-button {
+        width: 100%; /* Вместо фиксированных 500px */
+        max-width: 100%;
+        margin-top: 15px;
+        padding: 18px;
+        font-size: 14px;
+    }
+}
+
+/* Для совсем маленьких экранов */
+@media (max-width: 480px) {
+    #id_title {
+        font-size: 24px;
+    }
+    
+    .theme_info {
+        border-radius: 12px;
+        border: none; /* Убираем рамку, чтобы сэкономить пиксели */
+    }
 }

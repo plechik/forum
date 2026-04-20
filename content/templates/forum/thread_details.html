@@ -4,7 +4,7 @@
 {% block css %}<link rel="stylesheet" href="{% static 'css/theme_details.css' %}">{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Гловна</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Головна</a></li>
     <li class="breadcrumb-item"><a href="{% url 'forum:threads_list' thread.theme.pk %}">{{ thread.theme.title }}</a></li>
     <li class="breadcrumb-item active">{{ thread.title|truncatechars:30 }}</li>
 {% endblock %}
@@ -46,7 +46,7 @@
                         <form action="{% url 'forum:post_delete' post.pk %}" method="post" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="delete-post-btn" 
-                                    onclick="return confirm('Вы уверены, что хотите удалить это сообщение?')">
+                                    onclick="return confirm('Ви впевнені, що хочете видалити це повідомлення?')">
                                 <i class="bi bi-trash3"></i> </button>
                         </form>
                     {% endif %}
@@ -58,8 +58,6 @@
             </div>
         </div>
     </div>
-    {% empty %}
-    <p class="no-posts">Пока ответов нет. Станьте первым!</p>
     {% endfor %}
 
     {% if user.is_authenticated %}
@@ -70,7 +68,7 @@
                 <label for="id_content">Ваш коментар:</label>
                 <textarea name="content" id="id_content" placeholder="..." required></textarea>
             </div>
-            <button type="submit" class="submit-button">Отправить сообщение</button>
+            <button type="submit" class="submit-button">Надіслати повідомлення</button>
         </form>
     </div>
     {% else %}

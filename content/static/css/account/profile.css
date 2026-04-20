@@ -8,7 +8,8 @@ p {color: rgb(216, 216, 216);}
 .main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 24px;
+    padding: 0 24px;
+    padding-bottom: 32px;
     display: flex;
     gap: 32px;
 }
@@ -27,7 +28,6 @@ p {color: rgb(216, 216, 216);}
     overflow: hidden;
     border-radius: 12px;
     padding: 24px;
-    border: 1px solid #e5e5e5;
 }
 .user-info {
     display: flex;
@@ -79,12 +79,12 @@ p {color: rgb(216, 216, 216);}
     padding: 12px 16px;
     border-radius: 8px;
     font-size: 14px;
-    color: #666;
+    color: #fff;
     transition: all 0.2s;
+    cursor: pointer;
 }
 .sidebar-nav a:hover {
-    background-color: #f5f5f5;
-    color: #1a1a1a;
+    background-color: #2525256e;
 }
 .sidebar-nav a.active {
     background-color: #1a1a1a;
@@ -103,23 +103,33 @@ p {color: rgb(216, 216, 216);}
     color: #dc2626;
 }
 .logout-btn a:hover {
-    background-color: #fef2f2;
+    background-color: #2525256e;
     color: #dc2626;
 }
 /* Content */
 .content {
     flex: 1;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 24px;
 }
+
+.content.active{
+    display: flex;
+}
+
 .card {
-    background-color: #fff;
+    background-color: rgb(0 0 0 / 20%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(10px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
     border-radius: 12px;
     padding: 24px;
-    border: 1px solid #e5e5e5;
 }
 .card-header {
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -158,6 +168,7 @@ p {color: rgb(216, 216, 216);}
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -169,18 +180,26 @@ p {color: rgb(216, 216, 216);}
 .form-group label {
     font-size: 13px;
     font-weight: 500;
-    color: #666;
+    color: #fff;
 }
+
 .form-group input {
+    background-color: #ffffff00;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgb(216, 216, 216);
+    width: 100%;
+    margin: 0 0 5px;
     padding: 12px 16px;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
+    box-sizing: border-box;
     font-size: 14px;
-    transition: border-color 0.2s;
+    border-radius: 5px;
+    transition: background 0.2s ease;
 }
+
+
 .form-group input:focus {
+    background-color: rgb(0 0 0 / 30%);
     outline: none;
-    border-color: #1a1a1a;
 }
 .form-actions {
     margin-top: 24px;
@@ -188,26 +207,30 @@ p {color: rgb(216, 216, 216);}
     gap: 12px;
 }
 /* Orders */
-.orders-list {
+.posts-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-.order-item {
+.post-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px;
-    background-color: #fafafa;
     border-radius: 8px;
-    border: 1px solid #e5e5e5;
+
+    background-color: rgb(0 0 0 / 30%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); */
+    overflow: hidden;
 }
-.order-info {
+.post-info {
     display: flex;
+    max-width: 80%;
     align-items: center;
     gap: 16px;
 }
-.order-image {
+/* .post-image {
     width: 64px;
     height: 64px;
     background-color: #e5e5e5;
@@ -217,25 +240,27 @@ p {color: rgb(216, 216, 216);}
     justify-content: center;
     color: #999;
     font-size: 12px;
-}
-.order-details h4 {
+} */
+.post-details h4 {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 4px;
+    color: #fff;
 }
-.order-details p {
+.post-details p {
     font-size: 13px;
-    color: #666;
+    color: #888;
 }
-.order-meta {
+.post-meta {
     text-align: right;
 }
-.order-price {
+.post-date {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 4px;
+    color: #fff;
 }
-.order-status {
+.post-status {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 20px;
@@ -254,35 +279,7 @@ p {color: rgb(216, 216, 216);}
     background-color: #dbeafe;
     color: #1e40af;
 }
-/* Footer */
-.footer {
-    background-color: #fff;
-    border-top: 1px solid #e5e5e5;
-    padding: 24px;
-    margin-top: 48px;
-}
-.footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.footer p {
-    font-size: 13px;
-    color: #666;
-}
-.footer-links {
-    display: flex;
-    gap: 24px;
-}
-.footer-links a {
-    font-size: 13px;
-    color: #666;
-}
-.footer-links a:hover {
-    color: #1a1a1a;
-}
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav {

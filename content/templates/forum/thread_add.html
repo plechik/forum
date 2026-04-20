@@ -55,8 +55,16 @@
 {% block js %}
 <script>
 function autoResize(textarea) {
+    const scrollPos = window.scrollY;
+    
     textarea.style.height = 'auto'; 
     textarea.style.height = textarea.scrollHeight + 'px';
+    
+    window.scrollTo(0, scrollPos);
 }
+
+document.querySelectorAll('textarea').forEach(el => {
+    el.addEventListener('input', () => autoResize(el));
+});
 </script>
 {% endblock %}

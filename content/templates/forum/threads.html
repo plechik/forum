@@ -3,14 +3,13 @@
 {% block title %}Forum Home Page{% endblock %}
 {% block css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Гловна</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'forum:home' %}">Головна</a></li>
     <li class="breadcrumb-item active">{{ current_theme.title }}</li>
 {% endblock %}
 {% block thread_add %}
     {% if user.is_authenticated %}
-        {# Используем ID текущей темы, чтобы CreateView знал, куда привязать тред #}
         <a href="{% url 'forum:thread_create' current_theme.pk %}" class="add-thread-btn">
-            <i class="bi bi-plus-lg"></i> Додати контент
+            <i class="bi bi-plus-lg"></i> Додати тему
         </a>
     {% endif %}
 {% endblock %}
@@ -26,8 +25,6 @@
                     <p>{{ thread.content|truncatechars:100 }}</p>
                 </div>
             </a>
-        {% empty %}
-            <p>в этой теме пока нет ни одного треда. Будьте первым!</p>
         {% endfor %}
     </div>
 </div>

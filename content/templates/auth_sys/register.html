@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/account/log_reg.css' %}">{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/account/log_reg.css' %}">
+<style>
+    .breadcrumb { display: none; } /* Скрываем контейнер крошек только здесь */
+</style>
+{% endblock %}
 
 {% block title %} Реєстрація {% endblock %}
 
@@ -8,23 +13,37 @@
 <div class="register-page">
     <div class="form">
         <form method="post" action="{% url 'auth_sys:register' %}">
-        {% csrf_token %}
-        <h3 class="register-title">Реєстрація</h3>
-        <h5>{{form.username.label}}</h5>
-        {{form.username}}
-        <h5>{{form.email.label}}</h5>
-        {{form.email}}</h5>
-        <h5>{{form.password1.label}}</h5>
-        {{form.password1}}
-        <h5>{{form.password2.label}}</h5>
-        {{form.password2}}
-        <button type="submit"> Зареєструватись </button>
-        {% if form.errors %}
-            {% for error in form.errors %}
-            <p class="error">{{ error }}</p>
-            {% endfor %}
-        {% endif %}
-        <p class="message">Вже є акаунт? <a href="{%url 'auth_sys:login' %}">Увійти</a></p>
+            {% csrf_token %}
+            <h3 class="register-title">Реєстрація</h3>
+            <h5>{{form.username.label}}</h5>
+            {{form.username}}
+            <h5>{{form.email.label}}</h5>
+            {{form.email}}</h5>
+            <h5>{{form.password1.label}}</h5>
+            {{form.password1}}
+            <h5>{{form.password2.label}}</h5>
+            {{form.password2}}
+            <button type="submit"> Зареєструватись </button>
+            {% if form.errors %}
+                <div class="error-container">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p class="error-message">
+                                <i class="bi bi-exclamation-circle"></i> {{ error }}
+                            </p>
+                        {% endfor %}
+                    {% endfor %}
+                    
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p class="error-message">
+                                <i class="bi bi-exclamation-circle"></i> {{ error }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            <p class="action-link">Вже є акаунт? <a href="{%url 'auth_sys:login' %}">Увійти</a></p>
         </form>
     </div>
 </div>

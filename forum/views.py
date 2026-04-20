@@ -9,13 +9,17 @@ from .models import Theme, Thread, Post
 from .forms import PostForm, PostThread
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.db.models import Q
+from django.http import JsonResponse
+import pymorphy3
 
 # Головна сторінка зі списком усіх тем
 class HomeView(ListView):
     model = Theme
     template_name = 'forum/home_page.html'
     context_object_name = 'themes'
-    ordering = ['-created_at']
+    ordering = ['created_at']
 
 class ThreadsView(ListView):
     model = Thread
@@ -70,7 +74,7 @@ class ThreadDetailView(DetailView):
             if last_post:
                 # Перевірка на однаковий зміст
                 if last_post.content == content:
-                    messages.error(request, "Ви вже надіслали таке саме повідомлення!")
+                    messages.error(request, "Ви вже надсилали таке саме повідомлення!")
                     return self.render_to_response(self.get_context_data(form=form))
                 
                 # Перевірка на частоту публікації (30 секунд)
@@ -84,7 +88,7 @@ class ThreadDetailView(DetailView):
             post.author = user
             post.save()
             
-            messages.success(request, "Ваше коментар додано!")
+            messages.success(request, "Ваш коментар додано!")
             return redirect('forum:thread_details', pk=self.object.pk)
         
         return self.render_to_response(self.get_context_data(form=form))
@@ -93,14 +97,11 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
 
     def get_success_url(self):
-        # Возвращаемся в тот же тред
         return reverse('forum:thread_details', kwargs={'pk': self.get_object().thread.pk})
 
     def test_func(self):
-        # Только автор может удалить свой пост
         return self.request.user == self.get_object().author
 
-    # Если кто-то попробует зайти на URL через GET (просто вставив в браузер)
     def get(self, request, *args, **kwargs):
         return redirect(self.get_success_url())
 
@@ -128,17 +129,100 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('forum:thread_details', kwargs={'pk': self.object.pk})
 
+class SearchView(ListView):
+    model = Thread
+    template_name = 'forum/search_results.html'
+    context_object_name = 'results'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Thread.objects.filter(
+                Q(title__icontains=query) | 
+                Q(description__icontains=query) |
+                Q(content__icontains=query)
+            ).distinct()
+        return Thread.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q')
+        return context
+
 @login_required
 def profile_view(request):
-    """Страница личного кабинета"""
+    user = request.user
+    
     if request.method == 'POST':
-        user = request.user
-        # Проверяем, какую форму отправили (данные или пароль)
         if 'username' in request.POST:
-            # Обновление личных данных
             user.username = request.POST.get('username')
             user.email = request.POST.get('email')
             user.save()
-            messages.success(request, 'Данные обновлены')
-            return redirect('forum:profile')
-    return render(request, 'forum/account/account.html')
+            messages.success(request, 'Дані оновлено')
+            tab = request.POST.get('tab', 'profile')
+            return redirect(f"{request.path}?tab={tab}")
+        
+        elif 'current_password' in request.POST:
+                # Смена пароля
+                user = request.user
+                current_pass = request.POST.get('current_password')
+                new_pass = request.POST.get('new_password')
+                confirm_pass = request.POST.get('confirm_password')
+
+                if not user.check_password(current_pass):
+                    messages.error(request, 'Неправильний поточний пароль')
+                elif new_pass != confirm_pass:
+                    messages.error(request, 'Нові паролі не збігаються')
+                elif len(new_pass) < 8:
+                    messages.error(request, 'Пароль занадто короткий (мінімально 8 символів)')
+                else:
+                    user.set_password(new_pass)
+                    user.save()
+                    update_session_auth_hash(request, user) # Чтобы не разлогинило
+                    messages.success(request, 'Пароль успішно змінено!')
+                tab = request.POST.get('tab', 'profile')
+                return redirect(f"{request.path}?tab={tab}")
+
+    user_threads = Thread.objects.filter(author=user).order_by('-created_at')
+    
+    user_posts = Post.objects.filter(author=user).order_by('-created_at')
+
+    context = {
+        'user_threads': user_threads,
+        'user_posts': user_posts,
+    }
+    
+    return render(request, 'forum/account/account.html', context)
+
+morph_ru = pymorphy3.MorphAnalyzer(lang='ru')
+morph_uk = pymorphy3.MorphAnalyzer(lang='uk')
+
+def normalize_word(word):
+    res_ru = morph_ru.parse(word)[0].normal_form
+    res_uk = morph_uk.parse(word)[0].normal_form
+    # Возвращаем список из обоих вариантов, чтобы искать по обоим
+    return list(set([res_ru, res_uk, word.lower()]))
+
+def search_api(request):
+    query_text = request.GET.get('q', '').strip()
+    if len(query_text) > 2:
+        words = query_text.split()
+        q_objects = Q()
+        
+        for word in words:
+            forms = normalize_word(word)
+            word_q = Q()
+            for f in forms:
+                word_q |= Q(title__icontains=f) | Q(content__icontains=f)
+            q_objects &= word_q # Слово (или его формы) должно быть в результате
+            
+        results = Thread.objects.filter(q_objects).distinct()[:5]
+        
+        data = [{
+            'id': r.id,
+            'title': r.title,
+            'url': f"/threads/{r.id}/"
+        } for r in results]
+        
+        return JsonResponse(data, safe=False)
+    return JsonResponse([], safe=False)

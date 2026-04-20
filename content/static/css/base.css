@@ -42,7 +42,6 @@ body {
     border-radius: 16px;
     height: 50px;
     margin: 12px auto;
-    width: 100%;
     max-width: 1200px;
 }
 
@@ -59,11 +58,6 @@ body {
     padding: 0 5px;
 }
 
-.thread-actions {
-    display: flex;
-    align-items: center;
-}
-
 .breadcrumb-item a {
     color: #4dabf7;
     text-decoration: none;
@@ -77,4 +71,108 @@ body {
 .breadcrumb-item.active {
     color: #d8d8d8;
     pointer-events: none; /* Текущая страница не кликабельна */
+}
+
+.message {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    min-width: 200px;
+    transition: all 0.2s;
+}
+
+/* типы сообщений */
+.message.success {
+    background-color: #16a34a;
+}
+
+.message.error {
+    background-color: #dc2626;
+}
+
+.message.warning {
+    background-color: #f59e0b;
+}
+
+.search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 10px); /* Отступ вниз */
+    left: 0; /* Прижимаем к левому краю контейнера .search */
+    
+    width: 100%; /* Будет ровно 600px, как и родитель */
+    
+    background: rgba(15, 15, 15, 0.85);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    z-index: 9999;
+    
+    display: none;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    color: #e0e0e0;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.dropdown-item i {
+    margin-right: 12px;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.dropdown-item:hover i {
+    color: #4dabf7; /* Цвет иконки при наведении */
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Сообщение "Ничего не найдено" внутри списка */
+.search-no-results {
+    padding: 15px;
+    color: #888;
+    text-align: center;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb {
+        height: auto;
+        max-height: none;
+        padding: 10px;
+        margin: 10px 10px;
+        gap: 10px;
+    }
+    .breadcrumbs {
+        font-size: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-left: 10px;
+    }
 }

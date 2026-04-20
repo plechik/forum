@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/account/log_reg.css' %}">{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/account/log_reg.css' %}">
+<style>
+    .breadcrumb { display: none; } /* Скрываем контейнер крошек только здесь */
+</style>
+{% endblock %}
 
 {% block title %} Вхiд {% endblock %}
+
 
 {% block content %}
 <div class="register-page">
@@ -15,7 +21,16 @@
         <h5>{{form.password.label}}</h5>
         {{form.password}}
         <button type="submit"> Увійти </button>
-        <p class="message"> Немає акаунта? <a href="{% url 'auth_sys:register' %}"> Зареєструватись</a></p>
+        {% if messages %}
+            <div class="error-container">
+                {% for message in messages %}
+                    <p class="error-message">
+                        <i class="bi bi-exclamation-circle"></i> {{ message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <p class="action-link"> Немає акаунта? <a href="{% url 'auth_sys:register' %}"> Зареєструватись</a></p>
     </form>
     </div>
 </div>

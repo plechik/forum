@@ -24,6 +24,15 @@
 <body>
     <header>
         {% include 'partials/navbar.html' %}
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </header>
     <main>
         <nav class="breadcrumb">
@@ -38,5 +47,61 @@
         {% endblock %}
     </main>
     {% block js %}{% endblock %}
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.message').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 500);
+            });
+        }, 3000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-form input');
+            const searchContainer = document.querySelector('.search');
+            const dropdown = document.createElement('div');
+            dropdown.className = 'search-results-dropdown';
+            searchContainer.appendChild(dropdown);
+
+            searchInput.addEventListener('input', async function() {
+                const q = this.value.trim();
+                
+                if (q.length > 2) {
+                    try {
+                        const response = await fetch(`{% url 'forum:search_api' %}?q=${q}`);
+                        const data = await response.json();
+                        
+                        if (data.length > 0) {
+                            dropdown.innerHTML = data.map(item => `
+                                <a href="${item.url}" class="dropdown-item">
+                                    <i class="bi bi-chat-left-text"></i> ${item.title}
+                                </a>
+                            `).join('');
+                            dropdown.style.display = 'block';
+                        } else {
+                            dropdown.innerHTML = '<div class="search-no-results">Нічого не знайдено</div>';
+                            dropdown.style.display = 'block';
+                        }
+                    } catch (e) {
+                        console.log('Ошибка поиска:', e);
+                    }
+                } else {
+                    dropdown.style.display = 'none';
+                }
+            });
+
+            // Скрываем список при клике вне поиска
+            document.addEventListener('click', (e) => {
+                if (!searchContainer.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+
+            searchInput.addEventListener('focus', function() {
+                if (this.value.trim().length > 2 && dropdown.innerHTML !== '') {
+                    dropdown.style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
